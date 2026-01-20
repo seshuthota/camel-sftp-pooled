@@ -32,6 +32,9 @@ public class PooledSftpComponent extends SftpComponent {
         // Customize configuration
         PooledSftpConfiguration config = new PooledSftpConfiguration(new URI(baseUri));
 
+        // Bind parameters to configuration manually since we are not using generated configurers
+        org.apache.camel.support.PropertyBindingSupport.bindProperties(getCamelContext(), config, parameters);
+
         FtpUtils.ensureRelativeFtpDirectory(this, config);
 
         return new PooledSftpEndpoint(uri, this, config);
