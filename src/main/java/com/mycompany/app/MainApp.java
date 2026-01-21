@@ -15,12 +15,11 @@ public class MainApp {
         main.configure().addRoutesBuilder(new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                // Read from local 'inbox' and write to SFTP
-                // Note: Configure properties via args or sys props in real app
-                from("file:target/inbox?noop=true")
+                // Read from local 'time' directory and write to 'final' directory on SFTP
+                from("file:time?noop=true")
                     .log("Processing file: ${header.CamelFileName}")
-                    .to("pooled-sftp://localhost:2222/upload?username=user&password=password&useConnectionPool=true&delay=1000")
-                    .log("File uploaded");
+                    .to("pooled-sftp://localhost:2222/final?username=user&password=password&useConnectionPool=true")
+                    .log("File uploaded to SFTP final directory");
             }
         });
 
